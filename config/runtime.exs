@@ -251,7 +251,9 @@ config :ethereum_jsonrpc,
   ipc_path: System.get_env("IPC_PATH"),
   disable_archive_balances?:
     trace_url_missing? or ConfigHelper.parse_bool_env_var("ETHEREUM_JSONRPC_DISABLE_ARCHIVE_BALANCES"),
-  archive_balances_window: ConfigHelper.parse_integer_env_var("ETHEREUM_JSONRPC_ARCHIVE_BALANCES_WINDOW", 200)
+  archive_balances_window: ConfigHelper.parse_integer_env_var("ETHEREUM_JSONRPC_ARCHIVE_BALANCES_WINDOW", 200),
+  receipts_by_block?: ConfigHelper.parse_bool_env_var("ETHEREUM_JSONRPC_RECEIPTS_BY_BLOCK", "false"),
+  max_receipts_by_block: ConfigHelper.parse_integer_env_var("ETHEREUM_JSONRPC_MAX_RECEIPTS_BY_BLOCK", 1000)
 
 config :ethereum_jsonrpc, EthereumJSONRPC.HTTP,
   headers:
@@ -314,6 +316,8 @@ config :explorer,
      end),
   addresses_blacklist: System.get_env("ADDRESSES_BLACKLIST"),
   addresses_blacklist_key: System.get_env("ADDRESSES_BLACKLIST_KEY"),
+  token_balances_import_chunk_size:
+    ConfigHelper.parse_integer_env_var("INDEXER_CURRENT_TOKEN_BALANCES_IMPORT_CHUNK_SIZE", 50),
   elasticity_multiplier: ConfigHelper.parse_integer_env_var("EIP_1559_ELASTICITY_MULTIPLIER", 2),
   base_fee_max_change_denominator: ConfigHelper.parse_integer_env_var("EIP_1559_BASE_FEE_MAX_CHANGE_DENOMINATOR", 8),
   base_fee_lower_bound: ConfigHelper.parse_integer_env_var("EIP_1559_BASE_FEE_LOWER_BOUND_WEI", 0),
@@ -661,6 +665,13 @@ config :explorer, Explorer.ThirdPartyIntegrations.Dynamic,
 
 config :explorer, Explorer.ThirdPartyIntegrations.Dynamic.Strategy, enabled: !is_nil(dynamic_env_id)
 
+config :explorer, Explorer.ThirdPartyIntegrations.Keycloak,
+  domain: ConfigHelper.parse_url_env_var("ACCOUNT_KEYCLOAK_DOMAIN", nil, true),
+  realm: System.get_env("ACCOUNT_KEYCLOAK_REALM"),
+  client_id: System.get_env("ACCOUNT_KEYCLOAK_CLIENT_ID"),
+  client_secret: System.get_env("ACCOUNT_KEYCLOAK_CLIENT_SECRET"),
+  email_webhook_url: ConfigHelper.parse_url_env_var("ACCOUNT_KEYCLOAK_EMAIL_WEBHOOK_URL")
+
 enabled? = ConfigHelper.parse_bool_env_var("MICROSERVICE_SC_VERIFIER_ENABLED", "true")
 # or "eth_bytecode_db"
 type = System.get_env("MICROSERVICE_SC_VERIFIER_TYPE", "sc_verifier")
@@ -727,7 +738,8 @@ config :explorer, Explorer.Account,
   enabled: ConfigHelper.parse_bool_env_var("ACCOUNT_ENABLED"),
   sendgrid: [
     sender: System.get_env("ACCOUNT_SENDGRID_SENDER"),
-    template: System.get_env("ACCOUNT_SENDGRID_TEMPLATE")
+    template: System.get_env("ACCOUNT_SENDGRID_TEMPLATE"),
+    otp_template: System.get_env("ACCOUNT_SENDGRID_OTP_TEMPLATE")
   ],
   verification_email_resend_interval:
     ConfigHelper.parse_time_env_var("ACCOUNT_VERIFICATION_EMAIL_RESEND_INTERVAL", "5m"),
@@ -1049,6 +1061,9 @@ config :indexer, Indexer.Fetcher.TransactionAction,
 
 config :indexer, Indexer.PendingTransactionsSanitizer,
   interval: ConfigHelper.parse_time_env_var("INDEXER_PENDING_TRANSACTIONS_SANITIZER_INTERVAL", "1h")
+
+config :indexer, Indexer.TokenTransferBlockConsensusSanitizer,
+  interval: ConfigHelper.parse_time_env_var("INDEXER_TOKEN_TRANSFER_BLOCK_CONSENSUS_SANITIZER_INTERVAL", "20m")
 
 config :indexer, Indexer.Fetcher.PendingTransaction.Supervisor,
   disabled?: ConfigHelper.parse_bool_env_var("INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER")

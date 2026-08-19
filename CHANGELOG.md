@@ -1,5 +1,140 @@
 # Changelog
 
+## 10.2.6
+
+### 🐛 Bug Fixes
+
+- Fix PendingTransactionsSanitizer ([#14235](https://github.com/blockscout/blockscout/issues/14235))
+
+
+## 10.2.5
+
+### 🐛 Bug Fixes
+
+- Update changed constraint name in shrink IT migration ([#14205](https://github.com/blockscout/blockscout/issues/14205))
+
+
+## 10.2.4
+
+### ⚡ Performance
+
+- Use tuple-based comparison to utlize index ([#14178](https://github.com/blockscout/blockscout/pull/14178))
+
+### 🐛 Bug Fixes
+
+- Update transaction from receipt in PendingTransactionsSanitizer ([#14182](https://github.com/blockscout/blockscout/issues/14182))
+
+### ⚙️ Miscellaneous Tasks
+
+- Add swagger generation for Arc and Suave chain types ([#14181](https://github.com/blockscout/blockscout/issues/14181))
+
+
+## 10.2.3
+
+### 🐛 Bug Fixes
+
+- Allow fetching of stale token balances ([#14154](https://github.com/blockscout/blockscout/issues/14154))
+
+
+## 10.2.2
+
+### 🐛 Bug Fixes
+
+- Fix token transfers block_consensus setting ([#14005](https://github.com/blockscout/blockscout/issues/14005))
+- OP Withdrawals indexer enhancement ([#14056](https://github.com/blockscout/blockscout/issues/14056))
+
+### ⚙️ Miscellaneous Tasks
+
+- Add token transfer consensus sanitizer ([#14144](https://github.com/blockscout/blockscout/issues/14144))
+
+### New ENV variables
+
+| Variable                                            | Description                                                                                                                                                                                     | Parameters                                                          |
+|-----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `INDEXER_TOKEN_TRANSFER_BLOCK_CONSENSUS_SANITIZER_INTERVAL`   | Interval for token transfer block consensus sanitizer. [Time format](/setup/env-variables/backend-env-variables#time-format). Implemented in [#14144](https://github.com/blockscout/blockscout/pull/14144).                                                                                                                                                                                                                                                                                                                      | Version: v10.2.2\+ <br />Default: `20m` <br />Applications: Indexer                                       |
+
+
+## 10.2.1
+
+### 🐛 Bug Fixes
+
+- Notify.check_auth0 for Keycloak and Dynamic ([#14146](https://github.com/blockscout/blockscout/issues/14146))
+
+## 10.2.0
+
+### 🚀 Features
+
+- Fetch transaction receipts by block ([#14046](https://github.com/blockscout/blockscout/issues/14046))
+
+### New ENV variables
+
+| Variable                                            | Description                                                                                                                                                                                     | Parameters                                                          |
+|-----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `ETHEREUM_JSONRPC_RECEIPTS_BY_BLOCK`                          | If `true`, block fetchers will fetch transaction receipts by block instead of per transaction. Implemented in [#14046](https://github.com/blockscout/blockscout/pull/14046)                                                                                                                                                                                                                                                                                                                                                      | Version: v10.2.0\+ <br />Default: `false` <br />Applications: API, Indexer                                |
+| `ETHEREUM_JSONRPC_MAX_RECEIPTS_BY_BLOCK`                      | Max number of transactions in block for which receipts will be fetched by block. If block has more transactions, receipts will be fetched per transaction in purpose of reducing response body size. Implemented in [#14046](https://github.com/blockscout/blockscout/pull/14046)                                                                                                                                                                                                                                                | Version: v10.2.0\+ <br />Default: `1000` <br />Applications: API, Indexer                                 |
+
+
+## 10.1.1
+
+### 🐛 Bug Fixes
+
+- Authentication provider token redis key ([#14137](https://github.com/blockscout/blockscout/issues/14137))
+
+
+## 10.1.0
+
+### 🚀 Features
+
+- KeyCloak integration ([#14068](https://github.com/blockscout/blockscout/issues/14068))
+
+### New ENV variables
+
+| Variable                                            | Description                                                                                                                                                                                     | Parameters                                                          |
+|-----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `ACCOUNT_SENDGRID_OTP_TEMPLATE`                     | Sendgrid email OTP template for login with email functionality. Implemented in [#14068](https://github.com/blockscout/blockscout/pull/14068).                                                   | Version: v9.4.0\+ <br />Default: (empty) <br />Applications: API    |
+| `ACCOUNT_KEYCLOAK_DOMAIN`                           | Domain for [Keycloak](https://www.keycloak.org/). Implemented in [#14068](https://github.com/blockscout/blockscout/pull/14068).                                                                 | Version: v9.4.0\+ <br />Default: (empty) <br />Applications: API    |
+| `ACCOUNT_KEYCLOAK_REALM`                            | Realm for [Keycloak](https://www.keycloak.org/). Implemented in [#14068](https://github.com/blockscout/blockscout/pull/14068).                                                                  | Version: v9.4.0\+ <br />Default: (empty) <br />Applications: API    |
+| `ACCOUNT_KEYCLOAK_CLIENT_ID`                        | [Keycloak](https://www.keycloak.org/) client ID. Implemented in [#14068](https://github.com/blockscout/blockscout/pull/14068).                                                                  | Version: v9.4.0\+ <br />Default: (empty) <br />Applications: API    |
+| `ACCOUNT_KEYCLOAK_CLIENT_SECRET`                    | [Keycloak](https://www.keycloak.org/) client secret. Implemented in [#14068](https://github.com/blockscout/blockscout/pull/14068).                                                              | Version: v9.4.0\+ <br />Default: (empty) <br />Applications: API    |
+| `ACCOUNT_KEYCLOAK_EMAIL_WEBHOOK_URL`                | URL address where new email users are reported. Implemented in [#14068](https://github.com/blockscout/blockscout/pull/14068).                                                                   | Version: v9.4.0\+ <br />Default: (empty) <br />Applications: API    |
+
+
+## 10.0.8
+
+### 🐛 Bug Fixes
+
+- Zetachain internal txs fetching error ([#14122](https://github.com/blockscout/blockscout/issues/14122))
+
+
+## 10.0.7
+
+### 🐛 Bug Fixes
+
+- Add missing DenormalizationHelper alias in state changes ([#14119](https://github.com/blockscout/blockscout/issues/14119))
+
+
+## 10.0.6
+
+### 🐛 Bug Fixes
+
+- Add dependency between heavy internal transactions migrations ([#14107](https://github.com/blockscout/blockscout/issues/14107))
+
+
+## 10.0.5
+
+### 🐛 Bug Fixes
+
+- Add missing query params in user ops swagger spec ([#14104](https://github.com/blockscout/blockscout/issues/14104))
+- State changes handle ERC-7984;  nil tx.value ([#14101](https://github.com/blockscout/blockscout/issues/14101))
+
+
+## 10.0.4
+
+### 🐛 Bug Fixes
+
+- `confirm_otp` after `OpenApiSpex` integration ([#14098](https://github.com/blockscout/blockscout/issues/14098))
+
+
 ## 10.0.3
 
 ### ⚙️ Miscellaneous Tasks
